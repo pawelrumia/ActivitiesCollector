@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -104,7 +104,7 @@ class ExerciseFactory:
 # API Routes
 @app.route('/')
 def home():
-    return jsonify({"message": "Welcome to the Training Tracker API! Use /add to add data and /get to view records."}), 200
+    return render_template('index.html')
 
 @app.route('/add', methods=['POST'])
 def add_exercise():

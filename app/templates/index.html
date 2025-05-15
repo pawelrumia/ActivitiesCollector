@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Tracker</title>
+</head>
+<body>
+    <h1>Exercise Tracker</h1>
+    <form id="exerciseForm">
+        <label for="sport">Sport:</label>
+        <select id="sport" name="sport">
+            <option value="running">Running</option>
+            <option value="swimming">Swimming</option>
+            <option value="cycling">Cycling</option>
+            <option value="pullups">Pull-ups</option>
+            <option value="pushups">Push-ups</option>
+            <option value="weights">Weights</option>
+        </select>
+        <br><br>
+
+        <label for="time">Time (minutes, if applicable):</label>
+        <input type="number" id="time" name="time">
+        <br><br>
+
+        <label for="distance">Distance (if applicable):</label>
+        <input type="number" id="distance" name="distance">
+        <br><br>
+
+        <label for="sets">Sets (if applicable):</label>
+        <input type="number" id="sets" name="sets">
+        <br><br>
+
+        <label for="reps">Reps per Set (if applicable):</label>
+        <input type="number" id="reps" name="reps">
+        <br><br>
+
+        <button type="submit">Add Exercise</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('exerciseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const sport = document.getElementById('sport').value;
+            const time = document.getElementById('time').value || 0;
+            const distance = document.getElementById('distance').value || 0;
+            const sets = document.getElementById('sets').value || 0;
+            const reps = document.getElementById('reps').value || 0;
+
+            const data = { sport, time, distance, sets, reps };
+
+            const response = await fetch('/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            document.getElementById('response').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+        });
+    </script>
+</body>
+</html>
